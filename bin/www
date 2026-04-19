@@ -1,48 +1,53 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
+ * 服务器启动文件
+ * 负责创建HTTP服务器并监听端口
  */
-
-var app = require('../app');
-var debug = require('debug')('epmpsever:server');
-var http = require('http');
 
 /**
- * Get port from environment and store in Express.
+ * 模块依赖
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var app = require('../app'); // 引入Express应用实例
+var debug = require('debug')('epmpsever:server'); // 调试日志工具
+var http = require('http'); // HTTP模块
+
+/**
+ * 从环境变量获取端口并存储到Express应用中
+ */
+
+var port = normalizePort(process.env.PORT || '3000'); // 默认端口3000
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * 创建HTTP服务器
  */
 
 var server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * 监听指定端口，所有网络接口
  */
 
 server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.on('error', onError); // 错误事件处理
+server.on('listening', onListening); // 监听事件处理
 
 /**
- * Normalize a port into a number, string, or false.
+ * 规范化端口为数字、字符串或false
  */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
+    // 命名管道
     return val;
   }
 
   if (port >= 0) {
-    // port number
+    // 端口号
     return port;
   }
 
@@ -50,7 +55,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * HTTP服务器"error"事件监听器
  */
 
 function onError(error) {
@@ -62,7 +67,7 @@ function onError(error) {
     ? 'Pipe ' + port
     : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
+  // 处理特定的监听错误，提供友好的错误信息
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -78,7 +83,7 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * HTTP服务器"listening"事件监听器
  */
 
 function onListening() {
